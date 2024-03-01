@@ -6,7 +6,7 @@
     <title>Silver Echo</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="icon" href="media/logo.png">
-    <script src="main.js"></script>
+    
     
 
 </head>
@@ -21,12 +21,15 @@
         <!-- Chat input goes here -->
         <div class="input">
             <textarea placeholder="Input text goes here.....(Change this text future me)" rows="1" class="inputBox" id="inputBox"></textarea>
-
-            
+            <!-- Mic toggle button -->
+            <img src="media/mic_off_icon.png" alt="Mic Icon" class="micToggle" id="micToggle" onmouseenter="micHover()" onmouseout="micLeaveHover()" onclick="micToggle()">
+            <!-- Send button -->
+            <img alt="send icon" src="media/send.png" class="sendButton" id="sendButton" onmouseenter="sendHover()" onmouseout="sendLeaveHover()" onclick="">
         </div>
         
     </div>
 </main>
+<script src="main.js"></script>
 
 </body>
 </html>

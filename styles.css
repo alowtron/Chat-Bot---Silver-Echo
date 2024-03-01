@@ -39,14 +39,30 @@ html {
     border-color: black;
 }
 
+
 .inputBox {
     all: unset;
     /* width is set so that there is room for buttons in future */
     width: calc(100% - 70px);
+    height: 24px;
     resize: none;
     word-wrap: break-word;
+    font-family: inherit;
+    font-size: inherit;
     line-height: inherit;
     
+}
+
+/* Image Buttons */
+.micToggle {
+    padding-top: 10px;
+    margin-right: 8px;
+    width: 24px;
+}
+
+.sendButton {
+    padding-top: 10px;
+    width: 24px;
 }
 
 

@@ -1,0 +1,104 @@
+/* This js file needs to load after the html for everything to work properly*/
+
+// Code to make textarea change size as more text is added
+// select the inputBox
+let textarea = document.getElementById("inputBox")
+// code to update the height
+function updateSize() {
+    let desiredHeight = Math.min(textarea.scrollHeight, 200)
+    // make the input box grow as more text is added
+    textarea.style.height = desiredHeight + 'px'
+}
+// wait for input
+textarea.addEventListener('input', () => {
+    updateSize()
+    // make the input box shrink as text is taken away.
+    textarea.addEventListener('keydown', (event) => {
+        if (event.key === "Backspace" && textarea.scrollHeight > 0) {
+            textarea.style.height = (textarea.scrollHeight - 20) + 'px'
+        }
+    })
+})
+
+// update the size of inputBox every second so that it resizes while using text to speech
+setInterval(updateSize, 1000)
+
+// Code for toggling on and off mic
+// keeps track if mic is active or not
+let micActive = false
+// initializes speech var for use in {micStart()} and {micStop()}
+let speech
+// is called every time that mic button is pressed
+function micToggle() {
+    // starts the mic
+    if (micActive == false) {
+        micStart()
+        micActive = true
+        // changes the mic image
+        document.getElementById("micToggle").src = "media/mic_icon.png"
+    } else {
+        // stops the mic
+        micStop()
+        micActive = false
+        // changes the mic image
+        document.getElementById("micToggle").src = "media/mic_off_icon.png"
+    }
+}
+
+function micStart() {
+    // creates a speech recognition instance
+    speech = new webkitSpeechRecognition() || new SpeechRecognition()
+    speech.continuous = true
+    speech.lang = 'en-US'
+
+    // returns the results of what is said into input box
+    speech.onresult = function(event) {
+        const lastResultIndex = event.results.length - 1
+        const transcript = event.results[lastResultIndex][0].transcript
+        document.getElementById("inputBox").value += transcript
+        document.getElementById("inputBox").value += " "
+    }
+
+    // starts the speech
+    speech.start()
+    console.log("Speech Started")
+}
+
+// stops mic
+function micStop() {
+    if (speech) {
+        speech.stop()
+    }
+    console.log("Speech Stopped")
+    return micActive
+}
+
+// Code for changing images of icons
+function micHover() {
+    if (document.getElementById("micToggle").src.endsWith("mic_off_icon.png")) {
+        document.getElementById("micToggle").src = "media/mic_off_icon_hover.png"
+    } else {
+        document.getElementById("micToggle").src = "media/mic_icon_hover.png"
+    }
+}
+
+function micLeaveHover() {
+    if (document.getElementById("micToggle").src.endsWith("mic_off_icon_hover.png") || document.getElementById("micToggle").src.endsWith("mic_off_icon.png")) {
+        document.getElementById("micToggle").src = "media/mic_off_icon.png"
+    } else {
+        document.getElementById("micToggle").src = "media/mic_icon.png"
+    }
+}
+
+function sendHover() {
+    if (document.getElementById("sendButton").src.endsWith("send.png")) {
+        document.getElementById("sendButton").src = "media/send_hover.png"
+    }
+}
+
+function sendLeaveHover() {
+    if (document.getElementById("sendButton").src.endsWith("send_hover.png")) {
+        document.getElementById("sendButton").src = "media/send.png"
+    }
+}
+
