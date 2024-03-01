@@ -1,0 +1,59 @@
+html {
+    background-color: #2A3035;
+    color: silver;
+}
+
+/* Code for the box where all of the chatting happens */
+
+.talkBox {
+    
+    background-color: #242424;
+    width: 600px;
+    height: 98vh;
+    flex-direction: column;
+    /* center main chat */
+    display: flex;
+    margin: auto;
+    /* Border css */
+    border-radius: 10px;
+    border-style: solid;
+    border-width: 1px;
+    border-color: black;
+}
+
+.output {
+    height: calc(100% - 63px);
+}
+
+.input {
+    /* Background color, to be changed later? */
+    background-color: #2a303590;
+    max-height: 200px;
+    padding: 10px;
+    align-content: baseline;
+    margin: 10px;
+    /* border css */
+    border-radius: 10px;
+    border-style: solid;
+    border-width: 1px;
+    border-color: black;
+}
+
+.inputBox {
+    all: unset;
+    /* width is set so that there is room for buttons in future */
+    width: calc(100% - 70px);
+    resize: none;
+    word-wrap: break-word;
+    line-height: inherit;
+    
+}
+
+
+/* Code for small screens */
+
+@media only screen and (max-width: 700px) {
+    .talkBox {
+        width: 97vw;
+    }
+}
