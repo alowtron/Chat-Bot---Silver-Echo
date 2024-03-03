@@ -1,5 +1,26 @@
 /* This js file needs to load after the html for everything to work properly*/
 
+// SendMessage
+function sendMessage() {
+    let message = document.getElementById('inputBox').value
+    document.getElementById("inputBox").value = ""
+    console.log(message)
+
+    document.getElementById("output").innerHTML += `
+    <div class="userMessageContainer">
+        <div class="userMessage">
+            ${message}
+        </div>
+    </div>
+    `
+
+    // scroll to the bottom after message is submitted
+    document.getElementById("output").scrollTop = document.getElementById("output").scrollHeight
+}
+
+
+
+
 // Code to make textarea change size as more text is added
 // select the inputBox
 let textarea = document.getElementById("inputBox")
@@ -18,6 +39,17 @@ textarea.addEventListener('input', () => {
             textarea.style.height = (textarea.scrollHeight - 20) + 'px'
         }
     })
+})
+
+// Code to take and submit code when enter is pressed
+// listen for enter to be pressed to submit message
+textarea.addEventListener('keydown', (event) => {
+    // checks to see if shift is pressed, if it is, does not submit
+    if (event.key === 'Enter' && event.shiftKey === false) {
+        // keeps enter from creating a new line
+        event.preventDefault()
+        sendMessage()
+    }
 })
 
 // update the size of inputBox every second so that it resizes while using text to speech

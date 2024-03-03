@@ -15,7 +15,7 @@
 <main>
     <div class="talkBox">
         <!-- Chat Display Here -->
-        <div class="output">
+        <div class="output" id="output">
 
         </div>
         <!-- Chat input goes here -->
@@ -24,7 +24,7 @@
             <!-- Mic toggle button -->
             <img src="media/mic_off_icon.png" alt="Mic Icon" class="micToggle" id="micToggle" onmouseenter="micHover()" onmouseout="micLeaveHover()" onclick="micToggle()">
             <!-- Send button -->
-            <img alt="send icon" src="media/send.png" class="sendButton" id="sendButton" onmouseenter="sendHover()" onmouseout="sendLeaveHover()" onclick="">
+            <img alt="send icon" src="media/send.png" class="sendButton" id="sendButton" onmouseenter="sendHover()" onmouseout="sendLeaveHover()" onclick="sendMessage()">
         </div>
         
     </div>
