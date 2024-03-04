@@ -8,8 +8,21 @@ function sendMessage() {
 
     document.getElementById("output").innerHTML += `
     <div class="userMessageContainer">
+        <div class="userName">
+            You
+        </div>
         <div class="userMessage">
             ${message}
+        </div>
+    </div>
+    `
+    document.getElementById("output").innerHTML += `
+    <div class="botMessageContainer">
+        <div class="botName">
+            Bot
+        </div>
+        <div class="botMessage">
+            Response will go here
         </div>
     </div>
     `
