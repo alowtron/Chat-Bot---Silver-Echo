@@ -27,6 +27,7 @@ function sendMessage() {
     </div>
     `
 
+
     // scroll to the bottom after message is submitted
     document.getElementById("output").scrollTop = document.getElementById("output").scrollHeight
 }

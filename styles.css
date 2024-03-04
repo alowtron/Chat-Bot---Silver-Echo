@@ -69,10 +69,38 @@ html {
 /* Code for how the messages are displayed */
 
 .userMessageContainer {
-    padding-left: 20px;
-    padding-right: 10px;
+    background-color: #2A3035;
+    margin-left: 120px;
+    padding-right: 20px;
     padding-top: 10px;
     padding-bottom: 10px;
+    border-radius: 10px;
+
+    margin-bottom: 10px;
+}
+
+.userName {
+    font-weight: bold;
+    text-align: right;
+}
+
+.userMessage {
+    text-align: right;
+}
+
+.botMessageContainer {
+    background-color: #2A303590;
+    padding-left: 20px;
+    margin-right: 120px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-radius: 10px;
+
+    margin-bottom: 10px;
+}
+
+.botName {
+    font-weight: bold;
 }
 
 /* Code for small screens */
@@ -81,6 +109,13 @@ html {
     .talkBox {
         width: 97vw;
     }
+    .userMessageContainer {
+        margin-left: 100px;
+    }
+    .botMessageContainer {
+        margin-right: 100px;
+    }
+    
 }
 
 
