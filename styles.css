@@ -69,6 +69,7 @@ html {
 /* Code for how the messages are displayed */
 
 .userMessageContainer {
+
     background-color: #2A3035;
     margin-left: 120px;
     padding-right: 20px;
@@ -77,6 +78,9 @@ html {
     border-radius: 10px;
 
     margin-bottom: 10px;
+    overflow: hidden;
+
+    
 }
 
 .userName {
@@ -85,7 +89,9 @@ html {
 }
 
 .userMessage {
-    text-align: right;
+    /* text-align: right; */
+    padding-left: 20px;
+    float: right;
 }
 
 .botMessageContainer {
