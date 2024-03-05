@@ -4,8 +4,6 @@
 function sendMessage() {
     let message = document.getElementById('inputBox').value
     document.getElementById("inputBox").value = ""
-    console.log(message)
-
     document.getElementById("output").innerHTML += `
     <div class="userMessageContainer">
         <div class="userName">
@@ -16,22 +14,42 @@ function sendMessage() {
         </div>
     </div>
     `
-    document.getElementById("output").innerHTML += `
-    <div class="botMessageContainer">
-        <div class="botName">
-            Bot
-        </div>
-        <div class="botMessage">
-            Response will go here
-        </div>
-    </div>
-    `
 
+    console.log(message)
+    // send and get response from llm
+    let allData = new FormData()
+    allData.append("message", message)
+    fetch('chatbot.php', {
+        method: 'POST',
+        body: allData
+    })
+    .then(response => response.text())
+    .then(processedData => {
+        console.log(processedData)
 
-    // scroll to the bottom after message is submitted
-    document.getElementById("output").scrollTop = document.getElementById("output").scrollHeight
+        let displayMessage = JSON.parse(processedData)
+        let displayMessageText =  displayMessage.choices[0].message.content.replace(/\n/g, "<br>")
+
+        document.getElementById("output").innerHTML += `
+        <div class="botMessageContainer">
+            <div class="botName">
+                Bot
+            </div>
+            <div class="botMessage">
+                ${displayMessageText}
+            </div>
+        </div>
+        `
+        // scroll to the bottom after message is submitted
+        document.getElementById("output").scrollTop = document.getElementById("output").scrollHeight
+    })
+    .catch(error => {
+        console.log(error)
+    })
+
+    
 }
-
+// ${displayMessage.choices[0].message.content}
 
 
 
