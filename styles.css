@@ -3,6 +3,14 @@ html {
     color: silver;
 }
 
+/* Grid to display everything */
+
+.grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    
+}
+
 /* Code for the box where all of the chatting happens */
 
 .talkBox {

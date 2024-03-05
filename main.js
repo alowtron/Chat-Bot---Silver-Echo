@@ -1,6 +1,9 @@
 /* This js file needs to load after the html for everything to work properly*/
 
-// SendMessage
+// Define msg var in global scope for text to speech
+let msg
+
+// SendMessage function
 function sendMessage() {
     let message = document.getElementById('inputBox').value
     document.getElementById("inputBox").value = ""
@@ -27,7 +30,7 @@ function sendMessage() {
     .then(processedData => {
         console.log(processedData)
 
-        let displayMessage = JSON.parse(processedData)
+        let displayMessage = JSON.parse(processedData);
         let displayMessageText =  displayMessage.choices[0].message.content.replace(/\n/g, "<br>")
 
         document.getElementById("output").innerHTML += `
@@ -42,14 +45,69 @@ function sendMessage() {
         `
         // scroll to the bottom after message is submitted
         document.getElementById("output").scrollTop = document.getElementById("output").scrollHeight
+
+        // Speak the bot message with the selected voice
+
+        // check to see if text to speech is on
+        if (document.getElementById("textToSpeachToggle").checked) {
+            speakBotMessage(displayMessageText)
+        }
     })
     .catch(error => {
         console.log(error)
     })
-
-    
 }
-// ${displayMessage.choices[0].message.content}
+
+// Function to speak the bot message with the selected voice
+function speakBotMessage(text) {
+    if (!msg) {
+        // If msg is not defined, create a new SpeechSynthesisUtterance object
+        msg = new SpeechSynthesisUtterance()
+    }
+    msg.text = text
+
+    let selectedVoiceIndex = document.getElementById('voiceDropdown').value
+    msg.voice = window.speechSynthesis.getVoices()[selectedVoiceIndex]
+
+    window.speechSynthesis.speak(msg)
+}
+
+// Code to select voice
+
+// Define the voices variable outside of any function so it's accessible globally
+let voices = []
+
+// Function to populate dropdown menu with voices
+function populateVoiceDropdown() {
+    voices = window.speechSynthesis.getVoices()
+    let voiceDropdown = document.getElementById('voiceDropdown')
+    
+    // Clear existing options
+    voiceDropdown.innerHTML = ''
+
+    // Populate dropdown menu with voices
+    voices.forEach(function(voice, index) {
+        let option = document.createElement('option')
+        option.value = index
+        option.textContent = voice.name
+        voiceDropdown.appendChild(option)
+    })
+}
+
+// Event listener for voiceschanged event
+window.speechSynthesis.onvoiceschanged = populateVoiceDropdown;
+
+// Event listener for voice selection
+voiceDropdown.addEventListener('change', () => {
+    let selectedVoiceIndex = this.value
+    let selectedVoice = voices[selectedVoiceIndex]
+    
+    // Set the selected voice to the SpeechSynthesisUtterance object
+    if (!msg) {
+        msg = new SpeechSynthesisUtterance()
+    }
+    msg.voice = selectedVoice
+})
 
 
 
@@ -119,8 +177,24 @@ function micStart() {
     speech.onresult = function(event) {
         const lastResultIndex = event.results.length - 1
         const transcript = event.results[lastResultIndex][0].transcript
-        document.getElementById("inputBox").value += transcript
-        document.getElementById("inputBox").value += " "
+        
+        // checks to see if the word "send message" is in the transcript
+        if (transcript.toLowerCase().includes("send message".toLowerCase())) {
+            // removes the phrase "send message" from the transcript
+            let newTranscript = transcript.replace("send message", "").trim()
+            
+            // adds input to input box without send message
+            document.getElementById("inputBox").value += newTranscript
+            // sends the message
+            sendMessage()
+
+            // clears the input box
+            document.getElementById("inputBox").value = ""
+        } else {
+            // adds the transcript to the input box
+            document.getElementById("inputBox").value += transcript
+            document.getElementById("inputBox").value += " "
+        }
     }
 
     // starts the speech
