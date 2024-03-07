@@ -20,8 +20,9 @@ function sendMessage() {
 
     console.log(message)
     // send and get response from llm
+    let messageMemory = "Past information from messages:" + memory + " Reply to this:" + message
     let allData = new FormData()
-    allData.append("message", message)
+    allData.append("message", messageMemory)
     fetch('chatbot.php', {
         method: 'POST',
         body: allData
@@ -49,9 +50,32 @@ function sendMessage() {
         // Speak the bot message with the selected voice
 
         // check to see if text to speech is on
-        if (document.getElementById("textToSpeachToggle").checked) {
+        manageMemory(message, displayMessageText)
+        if (document.getElementById("textToSpeechToggle").checked) {
             speakBotMessage(displayMessageText)
         }
+
+    })
+    .catch(error => {
+        console.log(error)
+    })
+}
+var memory = ""
+function manageMemory(lastMessage, botMessage) {
+    let promptText = "Write the following information into your memory with as few words as possible, get rid of useless information, example, User: Name Charles, AI: offered to help.\n"
+
+    let promptInput = promptText + memory + "user message: " +lastMessage + "bot: " + botMessage
+    let allData = new FormData()
+    allData.append("prompt", promptInput)
+    fetch('memory.php', {
+        method: 'POST',
+        body: allData
+    })
+    .then(response => response.text())
+    .then(processedData => {
+        console.log(processedData)
+        let memoryData = JSON.parse(processedData)
+        memory = memoryData.choices[0].message.content
     })
     .catch(error => {
         console.log(error)
@@ -64,12 +88,15 @@ function speakBotMessage(text) {
         // If msg is not defined, create a new SpeechSynthesisUtterance object
         msg = new SpeechSynthesisUtterance()
     }
+    text = text.replace(/<br>/g, "")
     msg.text = text
+    
 
     let selectedVoiceIndex = document.getElementById('voiceDropdown').value
     msg.voice = window.speechSynthesis.getVoices()[selectedVoiceIndex]
 
     window.speechSynthesis.speak(msg)
+    console.log('speakBotMessage')
 }
 
 // Code to select voice
@@ -79,23 +106,29 @@ let voices = []
 
 // Function to populate dropdown menu with voices
 function populateVoiceDropdown() {
-    voices = window.speechSynthesis.getVoices()
-    let voiceDropdown = document.getElementById('voiceDropdown')
-    
-    // Clear existing options
-    voiceDropdown.innerHTML = ''
+        if (voiceDropdown.length === 0) {// check if voices are already populated
+            voices = window.speechSynthesis.getVoices()
+            let voiceDropdown = document.getElementById('voiceDropdown')
+            
+            // Clear existing options
+            voiceDropdown.innerHTML = ''
 
-    // Populate dropdown menu with voices
-    voices.forEach(function(voice, index) {
-        let option = document.createElement('option')
-        option.value = index
-        option.textContent = voice.name
-        voiceDropdown.appendChild(option)
-    })
+            // Populate dropdown menu with voices
+            
+            voices.forEach(function(voice, index) {
+            let option = document.createElement('option')
+            option.value = index
+            option.textContent = voice.name
+            voiceDropdown.appendChild(option)
+        })
+    }
+
+    console.log('populateVoiceDropdown')
 }
 
 // Event listener for voiceschanged event
 window.speechSynthesis.onvoiceschanged = populateVoiceDropdown;
+
 
 // Event listener for voice selection
 voiceDropdown.addEventListener('change', () => {
@@ -107,6 +140,7 @@ voiceDropdown.addEventListener('change', () => {
         msg = new SpeechSynthesisUtterance()
     }
     msg.voice = selectedVoice
+    console.log('changeVoice')
 })
 
 
