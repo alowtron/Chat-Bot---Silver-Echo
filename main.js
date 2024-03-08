@@ -82,6 +82,35 @@ function manageMemory(lastMessage, botMessage) {
     })
 }
 
+
+// Code to select voice
+
+// Define the voices variable outside of any function so it's accessible globally
+let voices = []
+
+// Function to populate dropdown menu with voices
+function populateVoiceDropdown() {
+    if (voiceDropdown.length === 0) {// check if voices are already populated
+        voices = window.speechSynthesis.getVoices()
+        let voiceDropdown = document.getElementById('voiceDropdown')
+        
+        // Clear existing options
+        voiceDropdown.innerHTML = ''
+
+        // Populate dropdown menu with voices
+        
+        voices.forEach(function(voice, index) {
+            let option = document.createElement('option')
+            option.value = index
+            option.textContent = voice.name
+            voiceDropdown.appendChild(option)
+        })
+    }
+}
+
+// Event listener for voiceschanged event
+window.speechSynthesis.onvoiceschanged = populateVoiceDropdown;
+
 // Function to speak the bot message with the selected voice
 function speakBotMessage(text) {
     if (!msg) {
@@ -98,36 +127,6 @@ function speakBotMessage(text) {
     window.speechSynthesis.speak(msg)
     console.log('speakBotMessage')
 }
-
-// Code to select voice
-
-// Define the voices variable outside of any function so it's accessible globally
-let voices = []
-
-// Function to populate dropdown menu with voices
-function populateVoiceDropdown() {
-        if (voiceDropdown.length === 0) {// check if voices are already populated
-            voices = window.speechSynthesis.getVoices()
-            let voiceDropdown = document.getElementById('voiceDropdown')
-            
-            // Clear existing options
-            voiceDropdown.innerHTML = ''
-
-            // Populate dropdown menu with voices
-            
-            voices.forEach(function(voice, index) {
-            let option = document.createElement('option')
-            option.value = index
-            option.textContent = voice.name
-            voiceDropdown.appendChild(option)
-        })
-    }
-
-    console.log('populateVoiceDropdown')
-}
-
-// Event listener for voiceschanged event
-window.speechSynthesis.onvoiceschanged = populateVoiceDropdown;
 
 
 // Event listener for voice selection
@@ -160,7 +159,8 @@ textarea.addEventListener('input', () => {
     // make the input box shrink as text is taken away.
     textarea.addEventListener('keydown', (event) => {
         if (event.key === "Backspace" && textarea.scrollHeight > 0) {
-            textarea.style.height = (textarea.scrollHeight - 20) + 'px'
+            textarea.style.height = '24px'
+
         }
     })
 })
