@@ -1,6 +1,8 @@
 <?php
 // get message data
 $message = $_POST['message'];
+$repetitionPenalty = floatval($_POST['repetitionPenalty']);
+$temperature = floatval($_POST['temperature']);
 
 
 
@@ -20,6 +22,10 @@ curl_setopt_array($curl, [
     'stop' => [
         '</s>'
     ],
+    'repetition_penalty' => $repetitionPenalty,
+    'temperature' => $temperature,
+
+    // set max tokens later
     'messages' => [
         [
                 'role' => 'user',

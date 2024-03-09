@@ -6,6 +6,8 @@ let msg
 // SendMessage function
 function sendMessage() {
     let message = document.getElementById('inputBox').value
+    let repetitionPenalty = parseFloat(document.getElementById("repetitionPenalty").value)
+    let temperature = parseFloat(document.getElementById("temperature").value)
     document.getElementById("inputBox").value = ""
     document.getElementById("output").innerHTML += `
     <div class="userMessageContainer">
@@ -23,6 +25,8 @@ function sendMessage() {
     let messageMemory = "Past information from messages:" + memory + " Reply to this:" + message
     let allData = new FormData()
     allData.append("message", messageMemory)
+    allData.append("repetitionPenalty", repetitionPenalty)
+    allData.append("temperature", temperature)
     fetch('chatbot.php', {
         method: 'POST',
         body: allData
