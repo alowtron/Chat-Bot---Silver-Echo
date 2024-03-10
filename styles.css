@@ -34,6 +34,42 @@ html {
     overflow-y: auto;
 }
 
+.left {
+    padding: 10px;
+}
+
+input {
+    background-color: #24242490;
+    border-radius: 10px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+}
+
+/* Styling the checkbox */
+input[type="checkbox"] {
+    padding-top: 5px;
+    /* Define custom dimensions */
+    width: 10px;
+    height: 10px;
+    /* Add custom border and background */
+    background-color: #24242490;
+    /* Add some padding for better appearance */
+    padding: 2px;
+    /* Add rounded corners */
+    border-radius: 2px;
+    /* Add cursor pointer */
+    cursor: pointer;
+}
+select {
+    background-color: #24242490;
+    border-radius: 10px;
+    color: silver;
+}
+
+select option {
+    background-color: #242424;
+}
+
 .input {
     /* Background color, to be changed later? */
     background-color: #2a303590;
