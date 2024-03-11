@@ -24,9 +24,9 @@ html {
     margin: auto;
     /* Border css */
     border-radius: 10px;
-    border-style: solid;
+    border-style: inset;
     border-width: 1px;
-    border-color: black;
+    border-color: silver;
 }
 
 .output {
@@ -39,18 +39,23 @@ html {
 }
 
 input {
+    all: unset;
     background-color: #24242490;
     border-radius: 10px;
     padding-top: 3px;
     padding-bottom: 3px;
+    border-color: silver;
+    border-width: 1px;
+    border-style: inset;
 }
 
 /* Styling the checkbox */
-input[type="checkbox"] {
+[type="checkbox"] {
     padding-top: 5px;
     /* Define custom dimensions */
-    width: 10px;
-    height: 10px;
+    width: 20px;
+    height: 20px;
+    ;
     /* Add custom border and background */
     background-color: #24242490;
     /* Add some padding for better appearance */
@@ -60,14 +65,27 @@ input[type="checkbox"] {
     /* Add cursor pointer */
     cursor: pointer;
 }
+
+[type="checkbox"]:checked {
+    background-color: #242422;
+}
+
+.textToSpeechToggleContainer {
+    padding-top: 10px;
+}
+
+
+
 select {
     background-color: #24242490;
     border-radius: 10px;
     color: silver;
+    border-style: inset;
 }
 
 select option {
     background-color: #242424;
+    border-style: inset;
 }
 
 .input {
