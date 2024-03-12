@@ -27,7 +27,7 @@ function sendMessage() {
     allData.append("message", messageMemory)
     allData.append("repetitionPenalty", repetitionPenalty)
     allData.append("temperature", temperature)
-    fetch('.env/chatbot.php', {
+    fetch('chatbot.php', {
         method: 'POST',
         body: allData
     })
@@ -71,7 +71,7 @@ function manageMemory(lastMessage, botMessage) {
     let promptInput = promptText + memory + "user message: " +lastMessage + "bot: " + botMessage
     let allData = new FormData()
     allData.append("prompt", promptInput)
-    fetch('.env/memory.php', {
+    fetch('memory.php', {
         method: 'POST',
         body: allData
     })
