@@ -22,11 +22,27 @@ function sendMessage() {
 
     console.log(message)
     // send and get response from llm
-    let messageMemory = "Past information from messages:" + memory + " Reply to this:" + message
+    // last messages sent
+    let pastMessages = document.getElementById("output").innerHTML
+    pastMessages = pastMessages.replace(/<p>/g, "")
+    pastMessages = pastMessages.replace(/<div[^>]*>|\s*<\/div>/g, "")
+    pastMessages = pastMessages.replace(/[\n\r]/g, "")
+    pastMessages = pastMessages.replace(/\s{2,}/g, " ")
+
+
+    // pastMessages = pastMessages.replace(/<(?!(?:userMessage|botMessage)[^>]*>).*?>/g, "")
+
+    pastMessages = pastMessages.substring(Math.max(pastMessages.length - 4000, 0))
+    pastMessages = "Most recent messages:" + pastMessages + "\n"
+    console.log(pastMessages)
+    // all information and most recent message
+    let messageMemory = "Past information from all messages:" + memory + " Reply to this:" + message
     let allData = new FormData()
+    
     allData.append("message", messageMemory)
     allData.append("repetitionPenalty", repetitionPenalty)
     allData.append("temperature", temperature)
+    allData.append("pastMessages", pastMessages)
     fetch('chatbot.php', {
         method: 'POST',
         body: allData
@@ -41,7 +57,7 @@ function sendMessage() {
         document.getElementById("output").innerHTML += `
         <div class="botMessageContainer">
             <div class="botName">
-                Bot
+                AI
             </div>
             <div class="botMessage">
                 ${displayMessageText}
@@ -66,9 +82,29 @@ function sendMessage() {
 }
 var memory = ""
 function manageMemory(lastMessage, botMessage) {
-    let promptText = "Write the following information into your memory with as few words as possible, get rid of useless information, example, User: Name Charles, AI: offered to help.\n"
-
-    let promptInput = promptText + memory + "user message: " +lastMessage + "bot: " + botMessage
+    // let promptText = "Write the following information into your memory with as few words as possible, get rid of useless information, example, User: Name Charles, AI: offered to help.\n"
+    let promptText = "Summarize the following information into a sentence.\n"
+    // let promptInput = promptText + memory + "user message: " +lastMessage + "bot: " + botMessage
+    if (memory.length > 3000) {
+        let memoryChangeText = "Rewrite this will all of the unimportant information removed."
+        let allData = new FormData()
+        allData.append("memoryChangeText", memoryChangeText)
+        fetch('memory.php', {
+            method: 'POST',
+            body: allData
+        }).then(response => response.text())
+        .then(processedData => {
+            console.log(processedData)
+            let memoryData = JSON.parse(processedData)
+            memory = memoryData.choices[0].message.content
+            console.log(memory)
+        })
+        .catch(error => {
+            console.log(error)
+        })
+    }
+    let promptInput = promptText + " User message: " + lastMessage + "\n AI message: " + botMessage
+    console.log(promptInput)
     let allData = new FormData()
     allData.append("prompt", promptInput)
     fetch('memory.php', {
@@ -79,7 +115,8 @@ function manageMemory(lastMessage, botMessage) {
     .then(processedData => {
         console.log(processedData)
         let memoryData = JSON.parse(processedData)
-        memory = memoryData.choices[0].message.content
+        memory += memoryData.choices[0].message.content
+        console.log(memory)
     })
     .catch(error => {
         console.log(error)
@@ -110,7 +147,6 @@ function populateVoiceDropdown() {
             voiceDropdown.appendChild(option)
         })
         let numberOfVoices = voices.length
-        console.log(numberOfVoices)
         if (numberOfVoices > 300) {
             voiceDropdown.selectedIndex = 99; // Set the selected index to 150
         }

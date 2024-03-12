@@ -3,6 +3,7 @@
 $message = $_POST['message'];
 $repetitionPenalty = floatval($_POST['repetitionPenalty']);
 $temperature = floatval($_POST['temperature']);
+$pastMessages = $_POST['pastMessages'];
 
 
 
@@ -27,10 +28,15 @@ curl_setopt_array($curl, [
 
     // set max tokens later
     'messages' => [
-        [
-                'role' => 'user',
-                'content' => $message
-        ]
+      [
+        'role' => 'system',
+        'content' => $pastMessages
+      ],
+      [
+        'role' => 'user',
+        'content' => $message
+      ]
+      
     ]
   ]),
   CURLOPT_HTTPHEADER => [
