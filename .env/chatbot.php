@@ -34,7 +34,7 @@ curl_setopt_array($curl, [
     ]
   ]),
   CURLOPT_HTTPHEADER => [
-    "Authorization: Bearer ",
+    "Authorization: Bearer 342d921e6ba8b5a9eb380e5e8b6d7f3bf8955534166c66a2f8b0fbf961e497ac",
     "accept: application/json",
     "content-type: application/json"
   ],

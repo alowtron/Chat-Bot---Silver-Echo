@@ -27,7 +27,7 @@ function sendMessage() {
     allData.append("message", messageMemory)
     allData.append("repetitionPenalty", repetitionPenalty)
     allData.append("temperature", temperature)
-    fetch('chatbot.php', {
+    fetch('.env/chatbot.php', {
         method: 'POST',
         body: allData
     })
@@ -71,7 +71,7 @@ function manageMemory(lastMessage, botMessage) {
     let promptInput = promptText + memory + "user message: " +lastMessage + "bot: " + botMessage
     let allData = new FormData()
     allData.append("prompt", promptInput)
-    fetch('memory.php', {
+    fetch('.env/memory.php', {
         method: 'POST',
         body: allData
     })
@@ -109,6 +109,11 @@ function populateVoiceDropdown() {
             option.textContent = voice.name
             voiceDropdown.appendChild(option)
         })
+        let numberOfVoices = voices.length
+        console.log(numberOfVoices)
+        if (numberOfVoices > 300) {
+            voiceDropdown.selectedIndex = 99; // Set the selected index to 150
+        }
     }
 }
 

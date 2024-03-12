@@ -26,7 +26,7 @@ html {
     border-radius: 10px;
     border-style: inset;
     border-width: 1px;
-    border-color: silver;
+    border-color: black;
 }
 
 .output {
@@ -44,30 +44,47 @@ input {
     border-radius: 10px;
     padding-top: 3px;
     padding-bottom: 3px;
-    border-color: silver;
+    border-color: black;
     border-width: 1px;
-    border-style: inset;
+    border-style: solid;
+    padding: 3px;
 }
 
 /* Styling the checkbox */
 [type="checkbox"] {
-    padding-top: 5px;
     /* Define custom dimensions */
     width: 20px;
     height: 20px;
-    ;
     /* Add custom border and background */
     background-color: #24242490;
     /* Add some padding for better appearance */
     padding: 2px;
     /* Add rounded corners */
-    border-radius: 2px;
+    border-radius: 10px;
     /* Add cursor pointer */
     cursor: pointer;
+    /* Hide default checkbox appearance */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    /* Add custom checkmark */
+    position: relative;
 }
 
-[type="checkbox"]:checked {
-    background-color: #242422;
+/* Style for custom checkmark */
+[type="checkbox"]::before {
+    content: '\2714'; /* Unicode character for checkmark */
+    font-size: 16px; /* Adjust size as needed */
+    color: transparent; /* Hide the checkmark initially */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* Style for checked checkbox */
+[type="checkbox"]:checked::before {
+    color: #ffffff; /* Color of the checkmark when checked */
 }
 
 .textToSpeechToggleContainer {
@@ -80,7 +97,9 @@ select {
     background-color: #24242490;
     border-radius: 10px;
     color: silver;
-    border-style: inset;
+    border-style: solid;
+    border-color: black;
+    padding: 3px;
 }
 
 select option {
