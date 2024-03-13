@@ -34,6 +34,18 @@
             <label for="repetitionPenalty">Repetition Penalty(1-2)</label>
             <br>
             <input type="input" id="repetitionPenalty" placeholder="Repetition Penalty 1 - 2" min="1" max="2" value="1">
+            <br>
+            <label for="systemPrompt">System Prompt</label>
+            <br>
+            <textarea id="systemPrompt" placeholder="System Prompt"></textarea>
+            <br>
+            <label for="modelSelect">Model</label>
+            <br>
+            <select id="modelSelect">
+                <option value="mistralai/Mixtral-8x7B-Instruct-v0.1">Mixtral-8x7B</option>
+                <option value="deepseek-ai/deepseek-coder-33b-instruct">DeepSeek Coder</option>
+                <option value="Qwen/Qwen1.5-14B-Chat">Qwen 14B</option>
+            </select>
         </div>
         
         <div class="talkBox">

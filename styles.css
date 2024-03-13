@@ -91,7 +91,13 @@ input {
     padding-top: 10px;
 }
 
-
+textarea{
+    border-radius: 10px;
+    border-width: 1px;
+    border-color: black;
+    color: silver;
+    background-color: #24242490;
+}
 
 select {
     background-color: #24242490;

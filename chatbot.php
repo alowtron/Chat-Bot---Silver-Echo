@@ -4,6 +4,8 @@ $message = $_POST['message'];
 $repetitionPenalty = floatval($_POST['repetitionPenalty']);
 $temperature = floatval($_POST['temperature']);
 $pastMessages = $_POST['pastMessages'];
+$systemPrompt = $_POST['systemPrompt'];
+$modelSelect = $_POST['modelSelect'];
 
 
 
@@ -19,7 +21,7 @@ curl_setopt_array($curl, [
   CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
   CURLOPT_CUSTOMREQUEST => "POST",
   CURLOPT_POSTFIELDS => json_encode([
-    'model' => 'mistralai/Mixtral-8x7B-Instruct-v0.1',
+    'model' => $modelSelect,
     'stop' => [
         '</s>'
     ],
@@ -28,6 +30,10 @@ curl_setopt_array($curl, [
 
     // set max tokens later
     'messages' => [
+      [
+        'role' => 'system',
+        'content' => $systemPrompt
+      ],
       [
         'role' => 'system',
         'content' => $pastMessages

@@ -43,6 +43,8 @@ function sendMessage() {
     allData.append("repetitionPenalty", repetitionPenalty)
     allData.append("temperature", temperature)
     allData.append("pastMessages", pastMessages)
+    allData.append("systemPrompt", document.getElementById("systemPrompt").value)
+    allData.append("modelSelect", document.getElementById("modelSelect").value)
     fetch('chatbot.php', {
         method: 'POST',
         body: allData
