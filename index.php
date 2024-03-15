@@ -7,7 +7,14 @@
     <link rel="stylesheet" href="styles.css">
     <link rel="icon" href="media/logo.png">
     
-    
+    <?php
+session_start();
+if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
+    header('Location: login.php');
+    exit;
+}
+?>
+
 
 </head>
 <body>
@@ -15,6 +22,12 @@
 <main>
     <div class="grid">
         <div class="left">
+            <div class="account">
+                <a href="logout.php">Logout</a>
+                <br>
+                <a href="reset-password.php">Reset Password</a>
+                <br>
+            </div>
             <label for="voiceDropdown">Select a voice:</label>
             <select id="voiceDropdown">
                 <!-- Options will be populated dynamically using JavaScript -->

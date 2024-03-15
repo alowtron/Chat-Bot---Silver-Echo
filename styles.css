@@ -3,6 +3,10 @@ html {
     color: silver;
 }
 
+a {
+    color: silver;
+}
+
 /* Grid to display everything */
 
 .grid {
