@@ -1,4 +1,9 @@
 <?php
+// get information from database
+require_once "config.php";
+$user_id = $_POST['user_id'];
+$sql = "SELECT credits FROM users WHERE id = ?";
+
 // get message data
 $message = $_POST['message'];
 $repetitionPenalty = floatval($_POST['repetitionPenalty']);
@@ -6,7 +11,6 @@ $temperature = floatval($_POST['temperature']);
 $pastMessages = $_POST['pastMessages'];
 $systemPrompt = $_POST['systemPrompt'];
 $modelSelect = $_POST['modelSelect'];
-
 
 
 $curl = curl_init();
