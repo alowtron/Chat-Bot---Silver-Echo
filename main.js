@@ -1,10 +1,13 @@
 /* This js file needs to load after the html for everything to work properly*/
+var pastChatsVar = {
+
+}
 
 // Define msg var in global scope for text to speech
 let msg
 
 // SendMessage function
-function sendMessage() {
+async function sendMessage() {
     let message = document.getElementById('inputBox').value
     let repetitionPenalty = parseFloat(document.getElementById("repetitionPenalty").value)
     let temperature = parseFloat(document.getElementById("temperature").value)
@@ -45,7 +48,7 @@ function sendMessage() {
     allData.append("pastMessages", pastMessages)
     allData.append("systemPrompt", document.getElementById("systemPrompt").value)
     allData.append("modelSelect", document.getElementById("modelSelect").value)
-    fetch('chatbot.php', {
+    await fetch('chatbot.php', {
         method: 'POST',
         body: allData
     })
@@ -55,6 +58,8 @@ function sendMessage() {
 
         let displayMessage = JSON.parse(processedData);
         let displayMessageText =  displayMessage.choices[0].message.content.replace(/\n/g, "<br>")
+        displayMessageText = replaceCodeBlocks(displayMessageText)
+        displayMessageText = replaceItalics(displayMessageText)
 
         document.getElementById("output").innerHTML += `
         <div class="botMessageContainer">
@@ -69,6 +74,8 @@ function sendMessage() {
         // scroll to the bottom after message is submitted
         document.getElementById("output").scrollTop = document.getElementById("output").scrollHeight
 
+
+
         // Speak the bot message with the selected voice
 
         // check to see if text to speech is on
@@ -76,14 +83,32 @@ function sendMessage() {
         if (document.getElementById("textToSpeechToggle").checked) {
             speakBotMessage(displayMessageText)
         }
+        
 
     })
     .catch(error => {
         console.log(error)
     })
+    // update sql
+    
+    let entireChat = document.getElementById("output").innerHTML
+    allData = new FormData()
+    allData.append("entireChat", entireChat)
+    fetch('chat.php', {
+        method: 'POST',
+        body: allData
+    })
+    .then(response => 
+        console.log(response.text(),
+        console.log("entireChat")))
+    .catch(error => {
+        console.log(error)
+    })
+    
+    
 }
 var memory = ""
-function manageMemory(lastMessage, botMessage) {
+async function manageMemory(lastMessage, botMessage) {
     // let promptText = "Write the following information into your memory with as few words as possible, get rid of useless information, example, User: Name Charles, AI: offered to help.\n"
     let promptText = "Summarize the following information into a sentence.\n"
     // let promptInput = promptText + memory + "user message: " +lastMessage + "bot: " + botMessage
@@ -91,7 +116,7 @@ function manageMemory(lastMessage, botMessage) {
         let memoryChangeText = "Rewrite this will all of the unimportant information removed."
         let allData = new FormData()
         allData.append("memoryChangeText", memoryChangeText)
-        fetch('memory.php', {
+        await fetch('memory.php', {
             method: 'POST',
             body: allData
         }).then(response => response.text())
@@ -109,7 +134,7 @@ function manageMemory(lastMessage, botMessage) {
     console.log(promptInput)
     let allData = new FormData()
     allData.append("prompt", promptInput)
-    fetch('memory.php', {
+    await fetch('memory.php', {
         method: 'POST',
         body: allData
     })
@@ -125,6 +150,41 @@ function manageMemory(lastMessage, botMessage) {
     })
 }
 
+// code to create a new chat
+function newChat() {
+    document.getElementById("output").innerHTML = ""
+    document.getElementById("inputBox").value = ""
+}
+
+// code to display list of chat
+async function chatList() {
+    // Fetch data from chatRetrieval.php
+    await fetch('chatRetrieval.php')
+        .then(response => {
+            // Check if the response is successful
+            if (!response.ok) {
+                throw new Error('Network response was not ok')
+            }
+            
+            // Parse the JSON response
+            return response.json()
+        })
+        .then(data => {
+            // Handle the retrieved data
+            pastChatsVar = data
+            for (let i = 0; i < pastChatsVar.length; i++) {
+                document.getElementById("pastChatsContainer").innerHTML += `
+                <div class="pastChat" id="pastChat">${pastChatsVar[i].chat_id}</div>
+                `
+            }
+            console.log(data) // You can replace this with your actual logic to display the chat list
+            return data
+        })
+        .catch(error => {
+            // Handle errors
+            console.error('There was a problem with the fetch operation:', error)
+        })
+}
 
 // Code to select voice
 
@@ -150,7 +210,7 @@ function populateVoiceDropdown() {
         })
         let numberOfVoices = voices.length
         if (numberOfVoices > 300) {
-            voiceDropdown.selectedIndex = 99; // Set the selected index to 150
+            voiceDropdown.selectedIndex = 99
         }
     }
 }
@@ -321,3 +381,34 @@ function sendLeaveHover() {
     }
 }
 
+// Function to replace triple backticks with HTML code markup
+function replaceCodeBlocks(text) {
+    // Replace code blocks (``` code ```)
+    const codeBlockRegex = /```([\s\S]*?)```/g;
+    text = text.replace(codeBlockRegex, '<pre><code>$1</code></pre>');
+
+    // Replace inline code (`code`)
+    const inlineCodeRegex = /`([^`]+)`/g;
+    text = text.replace(inlineCodeRegex, '<code>$1</code>');
+
+    return text;
+}
+
+// Function to replace text enclosed within asterisks with HTML italic markup
+function replaceItalics(text) {
+    const italicRegex = /\*([^*]+)\*/g;
+    return text.replace(italicRegex, '<em>$1</em>');
+}
+
+
+
+
+chatList()
+
+
+
+console.log(pastChatsVar)
+// for (var i = 0; i < pastChats.length; i++) {
+//     document.getElementById("pastChatsContainer").innerHTML += pastChats[i]
+// }
+// document.getElementById("pastChatsContainer").innerHTML = ""

@@ -8,6 +8,24 @@ a {
 }
 
 /* Grid to display everything */
+pre {
+    overflow-y: auto; /* Use auto instead of scroll */
+    /* max-height: 200px; */
+    background-color: #24242490;
+    margin-right: 10px;
+    border-radius: 10px;
+}
+
+/* Ensure scrollbar appears only when there's overflow */
+pre::-webkit-scrollbar {
+    width: 0; /* Set width to 0 to hide scrollbar */
+    background: #2A3035;
+    border-radius: 10px;
+}
+pre::-webkit-scrollbar-thumb {
+
+    background: #20283575;
+}
 
 .grid {
     display: grid;

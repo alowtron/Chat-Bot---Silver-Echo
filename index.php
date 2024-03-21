@@ -59,6 +59,17 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                 <option value="deepseek-ai/deepseek-coder-33b-instruct">DeepSeek Coder</option>
                 <option value="Qwen/Qwen1.5-14B-Chat">Qwen 14B</option>
             </select>
+        
+            <h3>
+                Chats
+            </h3>
+            <button class="newChat" onclick="newChat()">New Chat</button>
+            <h3>
+                Chat History
+            </h3>
+            <div class="pastChatsContainer" id="pastChatsContainer">
+                
+            </div>
         </div>
         
         <div class="talkBox">
@@ -83,7 +94,12 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     </div>
     
 </main>
-<script src="main.js"></script>
+<script src="main.js">
+    
 
+</script>
+<script>
+    
+</script>
 </body>
 </html>
