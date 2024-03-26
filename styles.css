@@ -33,6 +33,16 @@ pre::-webkit-scrollbar-thumb {
     
 }
 
+button {
+    background-color: #24242490;
+    color: silver;
+    border-radius: 10px;
+    border-style: solid;
+    border-width: 1px;
+    border-color: black;
+    padding: 5px;
+}
+
 /* Code for the box where all of the chatting happens */
 
 .talkBox {

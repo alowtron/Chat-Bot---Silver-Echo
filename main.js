@@ -2,12 +2,18 @@
 var pastChatsVar = {
 
 }
-
+var currentChatId
 // Define msg var in global scope for text to speech
 let msg
-
+var memory = ""
 // SendMessage function
 async function sendMessage() {
+    // check to see if there is a message in input box
+    let newMessageSent = false
+    if (document.getElementById("output").textContent == "") {
+        newMessageSent = true
+    }
+    
     let message = document.getElementById('inputBox').value
     let repetitionPenalty = parseFloat(document.getElementById("repetitionPenalty").value)
     let temperature = parseFloat(document.getElementById("temperature").value)
@@ -17,7 +23,7 @@ async function sendMessage() {
         <div class="userName">
             You
         </div>
-        <div class="userMessage">
+        <div class="userMessage" id="userMessage">
             ${message}
         </div>
     </div>
@@ -73,41 +79,63 @@ async function sendMessage() {
         `
         // scroll to the bottom after message is submitted
         document.getElementById("output").scrollTop = document.getElementById("output").scrollHeight
-
-
-
         // Speak the bot message with the selected voice
-
         // check to see if text to speech is on
-        manageMemory(message, displayMessageText)
+        
         if (document.getElementById("textToSpeechToggle").checked) {
             speakBotMessage(displayMessageText)
         }
-        
+        manageMemory(message, displayMessageText)
+        .then(() => {
+            // update sql
+            let entireChat = document.getElementById("output").innerHTML
+            let chatName = pastMessages.substring(0, 50)
+            let systemPrompt = document.getElementById("systemPrompt").value
+            if (newMessageSent == true) {
+                allData = new FormData()
+                allData.append("entireChat", entireChat)
+                allData.append("chatName", chatName)
+                allData.append("memory", memory)
+                allData.append("systemPrompt", systemPrompt)
+                fetch('chat.php', {
+                    method: 'POST',
+                    body: allData
+                })
+                .then(response => 
+                    console.log(response.text(),
+                    console.log("entireChat")))
+                .catch(error => {
+                    console.log(error)
+                })
+            } else {
+                allData = new FormData()
+                allData.append("entireChat", entireChat)
+                allData.append("chatId", currentChatId)
+                allData.append("memory", memory)
+                allData.append("systemPrompt", systemPrompt)
+                fetch('chatUpdate.php', {
+                    method: 'POST',
+                    body: allData
+                })
+                .then(response =>
+                    console.log(response.text(),
+                    console.log("entireChat")))
+                .catch(error => {
+                    console.log(error)
+                })
+            }
+        })
 
     })
     .catch(error => {
         console.log(error)
     })
-    // update sql
     
-    let entireChat = document.getElementById("output").innerHTML
-    allData = new FormData()
-    allData.append("entireChat", entireChat)
-    fetch('chat.php', {
-        method: 'POST',
-        body: allData
-    })
-    .then(response => 
-        console.log(response.text(),
-        console.log("entireChat")))
-    .catch(error => {
-        console.log(error)
-    })
+    
     
     
 }
-var memory = ""
+
 async function manageMemory(lastMessage, botMessage) {
     // let promptText = "Write the following information into your memory with as few words as possible, get rid of useless information, example, User: Name Charles, AI: offered to help.\n"
     let promptText = "Summarize the following information into a sentence.\n"
@@ -154,6 +182,7 @@ async function manageMemory(lastMessage, botMessage) {
 function newChat() {
     document.getElementById("output").innerHTML = ""
     document.getElementById("inputBox").value = ""
+    message = ""
 }
 
 // code to display list of chat
@@ -174,7 +203,7 @@ async function chatList() {
             pastChatsVar = data
             for (let i = 0; i < pastChatsVar.length; i++) {
                 document.getElementById("pastChatsContainer").innerHTML += `
-                <div class="pastChat" id="pastChat">${pastChatsVar[i].chat_id}</div>
+                <div class="pastChat" id="pastChat" onclick="loadChat(${pastChatsVar[i].chat_id})">${pastChatsVar[i].chat_name}</div>
                 `
             }
             console.log(data) // You can replace this with your actual logic to display the chat list
@@ -186,6 +215,32 @@ async function chatList() {
         })
 }
 
+
+// Code to load chats
+async function loadChat(chat_id) {
+    console.log(chat_id)
+    // Fetch data from chatRetrieval.php
+    let allData = new FormData()
+    allData.append("chat_id", chat_id)
+    await fetch('loadChat.php', {
+        method: 'POST',
+        body: allData
+    })
+        .then(response => response.json())
+        .then(data => {
+            // Handle the retrieved data
+            console.log(data) 
+            document.getElementById("output").innerHTML = data.chat_text
+            currentChatId = data.chat_id
+            memory = data.memory
+            document.getElementById("systemPrompt").value = data.system_prompt
+            return data
+        })
+        .catch(error => {
+            // Handle errors
+            console.error('There was a problem with the fetch operation:', error)
+        })
+}
 // Code to select voice
 
 // Define the voices variable outside of any function so it's accessible globally
@@ -210,7 +265,7 @@ function populateVoiceDropdown() {
         })
         let numberOfVoices = voices.length
         if (numberOfVoices > 300) {
-            voiceDropdown.selectedIndex = 99
+            voiceDropdown.selectedIndex = 116
         }
     }
 }
@@ -402,13 +457,9 @@ function replaceItalics(text) {
 
 
 
-
+newChat()
 chatList()
 
 
 
 console.log(pastChatsVar)
-// for (var i = 0; i < pastChats.length; i++) {
-//     document.getElementById("pastChatsContainer").innerHTML += pastChats[i]
-// }
-// document.getElementById("pastChatsContainer").innerHTML = ""
