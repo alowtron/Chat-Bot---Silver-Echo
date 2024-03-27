@@ -145,7 +145,7 @@ async function manageMemory(lastMessage, botMessage) {
         let memoryChangeText = "Rewrite this will all of the unimportant information removed."
         let allData = new FormData()
         allData.append("memoryChangeText", memoryChangeText)
-        await fetch('.sql/.memory.php', {
+        await fetch('.api/.memory.php', {
             method: 'POST',
             body: allData
         }).then(response => response.text())
