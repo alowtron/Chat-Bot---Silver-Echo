@@ -1,5 +1,5 @@
 <?php
-require_once "config.php";
+require_once "../config.php";
 session_start();
 
 // Check if the chat_id and user_id are set in the POST data

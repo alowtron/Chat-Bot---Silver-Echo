@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once "config.php";
+require_once "../config.php";
 
 // Retrieve data from POST request
 $chatId = $_POST['chatId'];

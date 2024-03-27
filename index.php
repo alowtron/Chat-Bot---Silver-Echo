@@ -10,7 +10,7 @@
     <?php
 session_start();
 if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
-    header('Location: login.php');
+    header('Location: account/login.php');
     exit;
 }
 ?>
@@ -21,11 +21,11 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     
 <main>
     <div class="grid">
-        <div class="left">
+        <div class="left" id="left">
             <div class="account">
-                <a href="logout.php">Logout</a>
+                <a href="account/logout.php">Logout</a>
                 <br>
-                <a href="reset-password.php">Reset Password</a>
+                <a href="account/reset-password.php">Reset Password</a>
                 <br>
             </div>
             <label for="voiceDropdown">Select a voice:</label>
@@ -90,15 +90,18 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
             </div>
             
         </div>
+        
 
+    </div>
+    <div id="lowerContent">
+    
     </div>
     
 </main>
-<script src="main.js">
-    
+<script src="visuals.js"></script>
+<script src="tts-stt.js"></script>
+<script src="main.js"></script>
 
-</script>
-<script>
     
 </script>
 </body>

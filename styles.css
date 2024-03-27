@@ -43,10 +43,21 @@ button {
     padding: 5px;
 }
 
+.pastChat {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    padding: 5px;
+    border-radius: 10px;
+    background-color: #24242490;
+}
+
+.pastChat:hover {
+    cursor: pointer;
+}
+
 /* Code for the box where all of the chatting happens */
 
 .talkBox {
-    
     background-color: #242424;
     width: 600px;
     height: 98vh;
@@ -59,6 +70,7 @@ button {
     border-style: inset;
     border-width: 1px;
     border-color: black;
+    margin-top: 0;
 }
 
 .output {
@@ -180,9 +192,17 @@ select option {
     width: 24px;
 }
 
+.micToggle:hover {
+    cursor: pointer;
+}
+
 .sendButton {
     padding-top: 10px;
     width: 24px;
+}
+
+.sendButton:hover {
+    cursor: pointer;
 }
 
 /* Code for how the messages are displayed */
@@ -240,7 +260,9 @@ select option {
     .botMessageContainer {
         margin-right: 100px;
     }
-    
+    .grid {
+        display: block;
+    }
 }
 
 
