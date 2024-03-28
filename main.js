@@ -12,7 +12,7 @@ var memory = ""
 async function sendMessage() {
     // check to see if there is a message in input box
     let newMessageSent = false
-    if (document.getElementById("output").textContent == "") {
+    if (document.getElementById("output").textContent == "" || document.getElementById("output").textContent == '') {
         newMessageSent = true
     }
     
@@ -184,7 +184,8 @@ async function manageMemory(lastMessage, botMessage) {
 function newChat() {
     document.getElementById("output").innerHTML = ""
     document.getElementById("inputBox").value = ""
-    message = ""
+    msg = ""
+    memory = ""
 }
 
 // code to display list of chat
@@ -203,7 +204,9 @@ async function chatList() {
         .then(data => {
             // Handle the retrieved data
             pastChatsVar = data
+            document.getElementById("pastChatsContainer").innerHTML = ``
             for (let i = 0; i < pastChatsVar.length; i++) {
+                
                 document.getElementById("pastChatsContainer").innerHTML += `
                 <div class="pastChat" id="pastChat" onclick="loadChat(${pastChatsVar[i].chat_id})">${pastChatsVar[i].chat_name}</div>
                 `
