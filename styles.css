@@ -1,3 +1,4 @@
+/* CSS for general html elements */
 html {
     background-color: #2A3035;
     color: silver;
@@ -7,7 +8,6 @@ a {
     color: silver;
 }
 
-/* Grid to display everything */
 pre {
     overflow-y: auto; /* Use auto instead of scroll */
     /* max-height: 200px; */
@@ -16,21 +16,9 @@ pre {
     border-radius: 10px;
 }
 
-/* Ensure scrollbar appears only when there's overflow */
-pre::-webkit-scrollbar {
-    width: 0; /* Set width to 0 to hide scrollbar */
-    background: #2A3035;
-    border-radius: 10px;
-}
 pre::-webkit-scrollbar-thumb {
 
     background: #20283575;
-}
-
-.grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    
 }
 
 button {
@@ -41,6 +29,61 @@ button {
     border-width: 1px;
     border-color: black;
     padding: 5px;
+    margin-bottom: 5px;
+}
+
+button:hover {
+    cursor: pointer;
+}
+
+input {
+    all: unset;
+    background-color: #24242490;
+    border-radius: 10px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    border-color: black;
+    border-width: 1px;
+    border-style: solid;
+    padding: 3px;
+}
+
+textarea{
+    border-radius: 10px;
+    border-width: 1px;
+    border-color: black;
+    color: silver;
+    background-color: #24242490;
+}
+
+select {
+    background-color: #24242490;
+    border-radius: 10px;
+    color: silver;
+    border-style: solid;
+    border-color: black;
+    padding: 3px;
+}
+
+select option {
+    background-color: #242424;
+    border-style: inset;
+}
+
+input {
+    margin: 10px;
+    margin-left: 0px;
+    padding: 5px;
+    text-align: left;
+}
+
+/* Grid to display everything */
+/* Ensure scrollbar appears only when there's overflow */
+
+.grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    
 }
 
 .pastChat {
@@ -49,6 +92,9 @@ button {
     padding: 5px;
     border-radius: 10px;
     background-color: #24242490;
+    border-style: solid;
+    border-width: 1px;
+    border-color: black;
 }
 
 .pastChat:hover {
@@ -80,18 +126,6 @@ button {
 
 .left {
     padding: 10px;
-}
-
-input {
-    all: unset;
-    background-color: #24242490;
-    border-radius: 10px;
-    padding-top: 3px;
-    padding-bottom: 3px;
-    border-color: black;
-    border-width: 1px;
-    border-style: solid;
-    padding: 3px;
 }
 
 /* Styling the checkbox */
@@ -133,28 +167,6 @@ input {
 
 .textToSpeechToggleContainer {
     padding-top: 10px;
-}
-
-textarea{
-    border-radius: 10px;
-    border-width: 1px;
-    border-color: black;
-    color: silver;
-    background-color: #24242490;
-}
-
-select {
-    background-color: #24242490;
-    border-radius: 10px;
-    color: silver;
-    border-style: solid;
-    border-color: black;
-    padding: 3px;
-}
-
-select option {
-    background-color: #242424;
-    border-style: inset;
 }
 
 .input {
@@ -246,6 +258,20 @@ select option {
 
 .botName {
     font-weight: bold;
+}
+
+/* Code for account pages */
+
+.accountFolder {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.pointer {
+    cursor: pointer;
 }
 
 /* Code for small screens */

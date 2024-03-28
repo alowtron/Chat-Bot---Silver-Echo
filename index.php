@@ -23,9 +23,9 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     <div class="grid">
         <div class="left" id="left">
             <div class="account">
-                <a href="account/logout.php">Logout</a>
+                <button onclick="window.location.href = 'account/logout.php'">Logout</button>
                 <br>
-                <a href="account/reset-password.php">Reset Password</a>
+                <button onclick="window.location.href = 'account/reset-password.php'">Reset Password</button>
                 <br>
             </div>
             <label for="voiceDropdown">Select a voice:</label>

@@ -91,7 +91,7 @@ async function sendMessage() {
         .then(() => {
             // update sql
             let entireChat = document.getElementById("output").innerHTML
-            let chatName = pastMessages.substring(0, 50)
+            let chatName = pastMessages.substring(25, 70)
             let systemPrompt = document.getElementById("systemPrompt").value
             if (newMessageSent == true) {
                 allData = new FormData()
@@ -106,6 +106,7 @@ async function sendMessage() {
                 .then(response => 
                     console.log(response.text(),
                     console.log("entireChat")))
+                    chatList()
                 .catch(error => {
                     console.log(error)
                 })
@@ -163,7 +164,7 @@ async function manageMemory(lastMessage, botMessage) {
     console.log(promptInput)
     let allData = new FormData()
     allData.append("prompt", promptInput)
-    await fetch('memory.php', {
+    await fetch('.api/.memory.php', {
         method: 'POST',
         body: allData
     })
